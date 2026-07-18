@@ -106,44 +106,113 @@
         </div>
     </section>
 
-    <!-- Script para puxar os produtos dinamicamente do teu painel -->
-    <script>
-        // Quando o site estiver online, este script vai ler a pasta "produtos" 
-        // e listar tudo automaticamente no ecrã com as fotos e etiquetas corretas.
-        async function carregarProdutosDoPainel() {
-            const container = document.getElementById('grid-produtos');
-            container.innerHTML = '<p class="text-center col-span-3 text-slate-500">A carregar a galeria...</p>';
+<!-- Script para puxar os produtos dinamicamente do teu painel -->
+<script>
+async function carregarProdutosDoPainel() {
+    const container = document.getElementById('grid-produtos');
+    container.innerHTML = '<p class="text-center col-span-3 text-slate-500">A carregar a galeria...</p>';
+    
+    // Configurações do teu repositório
+    const username = 'joaosimoes512';
+    const repo = 'NS-HamaBeads';
+    const folder = '_produtos';
 
-            try {
-                // Procura os ficheiros na pasta que o painel vai criar
-                const resposta = await fetch('/produtos/index.json').catch(() => null);
+    try {
+        // 1. Pedir à API do GitHub a lista de ficheiros na pasta _produtos
+        const urlAPI = `https://api.github.com/repos/${username}/${repo}/contents/${folder}`;
+        const respostaLista = await fetch(urlAPI);
+        
+        if (!respostaLista.ok) throw new Error('Não foi possível listar os produtos');
+        const ficheiros = await respostaLista.json();
+        
+        const produtos = [];
+
+        // 2. Ler o conteúdo de cada ficheiro .md encontrado
+        for (const file of ficheiros) {
+            if (file.name.endsWith('.md')) {
+                const resConteudo = await fetch(file.download_url);
+                const textoMarkdown = await resConteudo.text();
                 
-                // Se ainda não existirem produtos adicionados no painel, mostra dados de teste
-                const produtos = resposta ? await resposta.json() : [
-                    { title: "Porta-Chaves Exemplo", categoria: "Porta-Chaves", image: "https://via.placeholder.com/400x300?text=Ainda+sem+fotos", preco: "0,00 €", status: "Disponível" }
-                ];
+                // Função simples para extrair os dados do cabeçalho do Markdown (Frontmatter)
+                const dados = {};
+                const linhas = textoMarkdown.split('\n');
+                let noCabecalho = false;
+                let corpo = [];
 
-                container.innerHTML = '';
-                produtos.forEach(prod => {
-                    const eVendido = prod.status === 'Vendido';
-                    const card = `
-                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 relative">
-                            <div class="relative">
-                                <img src="${prod.image}" alt="${prod.title}" class="w-full h-48 object-cover ${eVendido ? 'opacity-60' : ''}">
-                                <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${eVendido ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
-                                    ${eVendido ? 'VENDIDO' : 'DISPONÍVEL'}
-                                </span>
-                            </div>
-                            <div class="p-5">
-                                <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">${prod.categoria}</span>
-                                <h4 class="font-bold text-lg text-slate-800 mt-1">${prod.title}</h4>
-                                <div class="flex justify-between items-center mt-4">
-                                    <span class="text-xl font-extrabold text-slate-900">${prod.preco}</span>
-                                    ${!eVendido ? 
-                                        `<a href="#contacto" class="text-sm font-semibold text-purple-600 hover:underline">Encomendar →</a>` : 
-                                        `<span class="text-xs text-slate-400 font-medium">Sob Encomenda</span>`
-                                    }
-                                </div>
+                linhas.forEach(linha => {
+                    if (linha.trim() === '---') {
+                        noCabecalho = !noCabecalho;
+                        return;
+                    }
+                    if (noCabecalho) {
+                        const partes = linha.split(':');
+                        if (partes.length >= 2) {
+                            const chave = partes[0].trim();
+                            // Junta o resto caso o valor tenha dois pontos (ex: URLs)
+                            let valor = partes.slice(1).join(':').trim();
+                            // Limpa aspas se existirem
+                            if (valor.startsWith('"') && valor.endsWith('"')) valor = valor.slice(1, -1);
+                            dados[chave] = valor;
+                        }
+                    } else {
+                        corpo.push(linha);
+                    }
+                });
+
+                produtos.push({
+                    title: dados.title || 'Produto Sem Nome',
+                    image: dados.image || 'https://via.placeholder.com/400x300',
+                    categoria: dados.categoria || 'Geral',
+                    price: dados.price ? `${dados.price}€` : 'Sob Consulta',
+                    available: dados.available !== 'false',
+                    descricao: corpo.join('\n').trim()
+                });
+            }
+        }
+
+        // Se a pasta estiver vazia, mostra os dados de teste antigos
+        if (produtos.length === 0) {
+            container.innerHTML = '<p class="text-center col-span-3 text-slate-500">Nenhum produto encontrado no painel.</p>';
+            return;
+        }
+
+        // 3. Renderizar os produtos no ecrã
+        container.innerHTML = '';
+        produtos.forEach(prod => {
+            const eVendido = !prod.available;
+            const card = `
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 relative">
+                    <div class="relative">
+                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-48 object-cover ${eVendido ? 'opacity-60' : ''}">
+                        <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${eVendido ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                            ${eVendido ? 'VENDIDO' : 'DISPONÍVEL'}
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">${prod.categoria}</span>
+                        <h4 class="font-bold text-lg text-slate-800 mt-1">${prod.title}</h4>
+                        <div class="flex justify-between items-center mt-4">
+                            <span class="text-xl font-extrabold text-slate-900">${prod.price}</span>
+                            ${eVendido ? 
+                                `<span class="text-xs text-slate-400 font-medium">Sob Encomenda</span>` : 
+                                `<a href="#contacto" class="text-sm font-semibold text-purple-600 hover:underline">Encomendar</a>`
+                            }
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar produtos:", erro);
+        container.innerHTML = '<p class="text-center col-span-3 text-red-500">Erro ao carregar os produtos da loja.</p>';
+    }
+}
+
+// Executa a função assim que a página carrega
+document.addEventListener('DOMContentLoaded', carregarProdutosDoPainel);
+</script>
                             </div>
                         </div>
                     `;
