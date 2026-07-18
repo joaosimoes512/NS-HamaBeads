@@ -178,65 +178,45 @@ async function carregarProdutosDoPainel() {
         }
 
         // 3. Renderizar os produtos no ecrã
-        container.innerHTML = '';
-        produtos.forEach(prod => {
-            const eVendido = !prod.available;
-            const card = `
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 relative">
-                    <div class="relative">
-                        <img src="${prod.image}" alt="${prod.title}" class="w-full h-48 object-cover ${eVendido ? 'opacity-60' : ''}">
-                        <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${eVendido ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
-                            ${eVendido ? 'VENDIDO' : 'DISPONÍVEL'}
-                        </span>
-                    </div>
-                    <div class="p-5">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">${prod.categoria}</span>
-                        <h4 class="font-bold text-lg text-slate-800 mt-1">${prod.title}</h4>
-                        <div class="flex justify-between items-center mt-4">
-                            <span class="text-xl font-extrabold text-slate-900">${prod.price}</span>
-                           ${eVendido ? 
+container.innerHTML = '';
+produtos.forEach(prod => {
+    const eVendido = !prod.available;
+    const card = `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 relative">
+            <div class="relative">
+                <img src="${prod.image}" alt="${prod.title}" class="w-full h-44 object-cover ${eVendido ? 'opacity-60' : ''}">
+                <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${eVendido ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                    ${eVendido ? 'VENDIDO' : 'DISPONÍVEL'}
+                </span>
+            </div>
+            <div class="p-5">
+                <span class="text-xs font-semibold text-purple-600 uppercase tracking-widers">${prod.categoria}</span>
+                <h4 class="font-bold text-lg text-slate-800 mt-1">${prod.title}</h4>
+                <div class="flex justify-between items-center mt-4">
+                    <span class="text-xl font-extrabold text-slate-900">${prod.price}</span>
+                    ${eVendido ? 
                         '<span class="text-xs text-slate-400 font-medium">Sob Encomenda</span>' : 
                         '<a href="#contacto" class="text-sm font-semibold text-purple-600 hover:underline">Encomendar</a>'
                     }
-                        </div>
-                    </div>
                 </div>
-        `;
+            </div>
+        </div>
+    `;
 
-        container.innerHTML += card;
-        });
+    container.innerHTML += card;
+});
 
-    } catch (erro) {
-        console.error("Erro ao carregar produtos:", erro);
-        container.innerHTML = '<p class="text-center col-span-3 text-red-500">Erro ao carregar os produtos da loja.</p>';
-    }
+} catch (erro) {
+    console.error("Erro ao carregar produtos:", erro);
+    container.innerHTML = '<p class="text-center col-span-3 text-red-500">Erro ao carregar os produtos da loja.</p>';
+}
 }
 
 // Executa a função assim que a página carrega
 document.addEventListener('DOMContentLoaded', carregarProdutosDoPainel);
 </script>
-                            </div>
-                        </div>
-                    `;
-                    container.innerHTML += card;
-                });
-            } catch (e) {
-                container.innerHTML = '<p class="text-center col-span-3 text-red-500">Erro ao carregar os produtos.</p>';
-            }
-        }
 
-        carregarProdutosDoPainel();
-    </script>
-    <script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
+</body>
+</html>
 </body>
 </html>
