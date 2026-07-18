@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artesanato & Hama Beads | Decoração Personalizada</title>
+    <!-- Tailwind CSS para design moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- COLA-SE AQUI: Conexão com o Painel de Controlo Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+    <!-- Cabeçalho / Navegação -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-purple-600 flex items-center gap-2">
+                <i class="fa-solid fa-shapes"></i> Arte & Pixel
+            </h1>
+            <nav class="hidden md:flex gap-6 font-medium">
+                <a href="#sobre" class="hover:text-purple-600 transition">Sobre Mim</a>
+                <a href="#produtos" class="hover:text-purple-600 transition">Galeria & Catálogo</a>
+                <a href="#contacto" class="hover:text-purple-600 transition">Encomendas</a>
+            </nav>
+            <a href="#contacto" class="bg-purple-600 text-white px-4 py-2 rounded-full font-medium hover:bg-purple-700 transition">
+                Fazer Encomenda
+            </a>
+        </div>
+    </header>
+
+    <!-- Secção Principal / Hero -->
+    <section class="gradient-bg text-white py-20 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold mb-4">Peças Únicas em Hama Beads & Arte 2D</h2>
+            <p class="text-lg md:text-xl opacity-90 mb-8">
+                Crio porta-chaves, ímãs para frigorífico e desenhos em 2D feitos à mão para dar cor e personalidade à tua decoração!
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#produtos" class="bg-white text-purple-600 px-6 py-3 rounded-full font-bold shadow-lg hover:bg-slate-100 transition">
+                    Ver Galeria
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serviços / O que faço -->
+    <section id="sobre" class="py-16 px-4 max-w-6xl mx-auto">
+        <h3 class="text-3xl font-bold text-center mb-12">O que podes encomendar?</h3>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-cubes"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-2">Hama Beads</h4>
+                <p class="text-slate-600 text-sm">Figuras e píxeis em contas derretidas de alta qualidade.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <div class="w-12 h-12 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-2">Porta-Chaves</h4>
+                <p class="text-slate-600 text-sm">Acessórios personalizados para levar as tuas personagens favoritas contigo.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-magnet"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-2">Ímãs</h4>
+                <p class="text-slate-600 text-sm">Perfeitos para decorar o frigorífico ou quadros metálicos com estilo.</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center mx-auto mb-4 text-xl">
+                    <i class="fa-solid fa-palette"></i>
+                </div>
+                <h4 class="font-bold text-xl mb-2">Desenhos 2D</h4>
+                <p class="text-slate-600 text-sm">Quadros e peças decorativas 2D personalizadas para a tua casa.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria de Produtos -->
+    <section id="produtos" class="bg-slate-100 py-16 px-4">
+        <div class="max-w-6xl mx-auto">
+            <h3 class="text-3xl font-bold text-center mb-8">Produtos & Galeria</h3>
+            
+            <!-- Grelha de Produtos -->
+            <div id="grid-produtos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Os teus produtos carregados pelo painel vão aparecer aqui automaticamente -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto / Encomendas -->
+    <section id="contacto" class="py-16 px-4 max-w-4xl mx-auto text-center">
+        <h3 class="text-3xl font-bold mb-4">Queres uma peça personalizada?</h3>
+        <p class="text-slate-600 mb-8">Entre em contacto comigo para criar algo totalmente à tua medida!</p>
+        <div class="flex justify-center gap-4 flex-wrap">
+            <a href="https://wa.me/351XXXXXXXXX" target="_blank" class="bg-green-500 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-green-600 transition">
+                <i class="fa-brands fa-whatsapp text-xl"></i> Mensagem no WhatsApp
+            </a>
+            <a href="https://instagram.com/teu_instagram" target="_blank" class="bg-pink-600 text-white px-6 py-3 rounded-full font-bold flex items-center gap-2 hover:bg-pink-700 transition">
+                <i class="fa-brands fa-instagram text-xl"></i> Seguir no Instagram
+            </a>
+        </div>
+    </section>
+
+    <!-- Script para puxar os produtos dinamicamente do teu painel -->
+    <script>
+        // Quando o site estiver online, este script vai ler a pasta "produtos" 
+        // e listar tudo automaticamente no ecrã com as fotos e etiquetas corretas.
+        async function carregarProdutosDoPainel() {
+            const container = document.getElementById('grid-produtos');
+            container.innerHTML = '<p class="text-center col-span-3 text-slate-500">A carregar a galeria...</p>';
+
+            try {
+                // Procura os ficheiros na pasta que o painel vai criar
+                const resposta = await fetch('/produtos/index.json').catch(() => null);
+                
+                // Se ainda não existirem produtos adicionados no painel, mostra dados de teste
+                const produtos = resposta ? await resposta.json() : [
+                    { title: "Porta-Chaves Exemplo", categoria: "Porta-Chaves", image: "https://via.placeholder.com/400x300?text=Ainda+sem+fotos", preco: "0,00 €", status: "Disponível" }
+                ];
+
+                container.innerHTML = '';
+                produtos.forEach(prod => {
+                    const eVendido = prod.status === 'Vendido';
+                    const card = `
+                        <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200 relative">
+                            <div class="relative">
+                                <img src="${prod.image}" alt="${prod.title}" class="w-full h-48 object-cover ${eVendido ? 'opacity-60' : ''}">
+                                <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${eVendido ? 'bg-red-500 text-white' : 'bg-green-500 text-white'}">
+                                    ${eVendido ? 'VENDIDO' : 'DISPONÍVEL'}
+                                </span>
+                            </div>
+                            <div class="p-5">
+                                <span class="text-xs font-semibold text-purple-600 uppercase tracking-wider">${prod.categoria}</span>
+                                <h4 class="font-bold text-lg text-slate-800 mt-1">${prod.title}</h4>
+                                <div class="flex justify-between items-center mt-4">
+                                    <span class="text-xl font-extrabold text-slate-900">${prod.preco}</span>
+                                    ${!eVendido ? 
+                                        `<a href="#contacto" class="text-sm font-semibold text-purple-600 hover:underline">Encomendar →</a>` : 
+                                        `<span class="text-xs text-slate-400 font-medium">Sob Encomenda</span>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            } catch (e) {
+                container.innerHTML = '<p class="text-center col-span-3 text-red-500">Erro ao carregar os produtos.</p>';
+            }
+        }
+
+        carregarProdutosDoPainel();
+    </script>
+</body>
+</html>
